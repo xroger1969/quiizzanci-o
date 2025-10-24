@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz sfg‑TPO • 100 perguntas (pt‑PT)</title>
+  <style>
+    :root {
+      --bg: #0b1020; --card:#12172a; --ink:#e8ecff; --muted:#a7b0d9; --accent:#7aa2ff; --accent-2:#3ddc97;
+      --wrong:#ff6b6b; --right:#2ecc71; --focus:#c8d3ff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial;background:radial-gradient(1200px 800px at 20% -10%, #1a2240 0 40%, transparent 40%),linear-gradient(180deg,#0a0f1e 0,#0b1020 100%);color:var(--ink)}
+    .wrap{max-width:1000px;margin:0 auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:16px}
+    h1{font-size:clamp(20px,2.2vw,28px);margin:0}
+    .badge{padding:6px 10px;border:1px solid #2a355e;border-radius:999px;color:var(--muted)}
+    .card{background:linear-gradient(180deg,#151b30,#10162a);border:1px solid #202a4f;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.25);overflow:hidden}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;padding:16px;border-bottom:1px solid #1c2546}
+    .toolbar > *{background:#0f1530;border:1px solid #202a4f;color:var(--ink);padding:8px 12px;border-radius:12px}
+    label{display:flex;align-items:center;gap:8px}
+    select,button,input[type=number]{background:#0f1530;border:1px solid #2b3564;color:var(--ink);padding:8px 12px;border-radius:12px}
+    button{cursor:pointer}
+    button.primary{background:linear-gradient(180deg,#2a77ff,#215fff);border:0;color:white}
+    button.ghost{background:transparent;border:1px solid #2b3564}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px;padding:16px}
+    @media (min-width:860px){.grid{grid-template-columns: 1fr 280px}}
+    .qcard{padding:18px;border:1px solid #1c2546;border-radius:16px;background:linear-gradient(180deg,#121735,#0e1430)}
+    .qmeta{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px;margin-bottom:8px}
+    .qtext{font-size:18px;margin:4px 0 12px}
+    .choices{display:grid;gap:10px}
+    .choice{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid #2a355e;border-radius:12px;background:#0d1330;cursor:pointer}
+    .choice:hover{border-color:#3b4da3}
+    .choice input{margin-top:3px}
+    .choice.correct{border-color:var(--right);background:rgba(46,204,113,.08)}
+    .choice.wrong{border-color:var(--wrong);background:rgba(255,107,107,.08)}
+    .explain{margin-top:10px;color:var(--muted);font-size:14px;border-left:3px solid #2b3564;padding-left:10px}
+    .side{display:flex;flex-direction:column;gap:12px;padding:12px}
+    .stat{display:flex;justify-content:space-between;align-items:center;background:#0d1330;border:1px solid #1c2546;border-radius:12px;padding:10px;color:var(--muted)}
+    .progress{height:10px;background:#0d1330;border:1px solid #24305d;border-radius:999px;overflow:hidden}
+    .progress > div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%}
+    .nav{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{background:#0f1530;border:1px solid #2b3564;color:var(--muted);padding:4px 10px;border-radius:999px;font-size:12px}
+    .footer{display:flex;gap:8px;justify-content:space-between;padding:16px;border-top:1px solid #1c2546}
+    .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+    .dot{display:grid;place-items:center;height:40px;border-radius:10px;background:#0f1530;border:1px solid #202a4f;color:#99a4d8;font-size:12px}
+    .dot.ok{border-color:var(--right);color:#b7f0c9}
+    .dot.bad{border-color:var(--wrong);color:#ffc1c1}
+    details{border:1px solid #1c2546;border-radius:12px;padding:10px;background:#0d1330}
+    summary{cursor:pointer;color:var(--muted)}
+    a{color:var(--accent)}
+  
+    /* ===== Ajustes de responsividade / Mobile-first ===== */
+    header{flex-wrap:wrap}
+    .wrap{padding:20px}
+    .qtext,.choice div{overflow-wrap:anywhere;word-break:break-word;hyphens:auto}
+    .choice{min-height:48px}
+    .toolbar{flex-wrap:wrap}
+  
+    @media (max-width: 720px){
+      body{font-size:16px}
+      .wrap{padding:16px}
+      .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+      .toolbar > *{width:100%}
+      #startBtn,#resetBtn{grid-column:span 2}
+      .qtext{font-size:clamp(16px,3.8vw,18px)}
+      .choices{gap:12px}
+      .choice{padding:14px}
+      .choice input{transform:scale(1.2)}
+      .list{grid-template-columns:repeat(auto-fill,minmax(38px,1fr))}
+      .footer{position:sticky;bottom:0;background:linear-gradient(180deg,#151b30,#0e1430);backdrop-filter:saturate(120%) blur(6px)}
+      .nav{width:100%;justify-content:space-between}
+      #prev,#next,#finish{flex:1}
+    }
+  
+    @media (max-width: 420px){
+      .wrap{padding:12px}
+      h1{font-size:clamp(18px,5.2vw,22px)}
+      .badge{width:100%;text-align:left}
+      .toolbar{grid-template-columns:1fr}
+      #startBtn,#resetBtn{grid-column:auto}
+      .qmeta{gap:6px}
+      .pill{font-size:11px}
+      .dot{height:36px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Quiz «Pastoreiem o Rebanho de Deus» (sfg‑TPO) — 100 perguntas</h1>
+      <div class="badge">PT‑PT • Estilo americano • 4 opções</div>
+    </header>
+
+    <div class="card">
+      <div class="toolbar">
+        <label>Modo
+          <select id="mode">
+            <option value="study">Estudo (feedback imediato)</option>
+            <option value="exam">Exame (feedback no fim)</option>
+          </select>
+        </label>
+        <label>Ordem
+          <select id="order">
+            <option value="as-is">Sequencial</option>
+            <option value="shuffle">Baralhar</option>
+          </select>
+        </label>
+        <label>Começar no nº
+          <input id="startIndex" type="number" min="1" max="100" value="1" />
+        </label>
+        <button id="startBtn" class="primary">Iniciar</button>
+        <button id="resetBtn" class="ghost">Reiniciar</button>
+      </div>
+      <div class="grid">
+        <main id="main"></main>
+        <aside class="side">
+          <div class="stat"><span>Total de perguntas</span><strong id="total">0</strong></div>
+          <div class="stat"><span>Respondidas</span><strong id="answered">0</strong></div>
+          <div class="stat"><span>Corretas</span><strong id="correct">0</strong></div>
+          <div class="stat"><span>Progresso</span></div>
+          <div class="progress"><div id="bar"></div></div>
+          <details>
+            <summary>Mapa das perguntas</summary>
+            <div class="list" id="map"></div>
+          </details>
+        </aside>
+      </div>
+      <div class="footer">
+        <div class="nav">
+          <button id="prev" class="ghost">◀ Anterior</button>
+          <button id="next" class="ghost">Seguinte ▶</button>
+        </div>
+        <div class="nav">
+          <button id="finish" class="primary">Concluir</button>
+        </div>
+      </div>
+    </div>
+
+    <p style="color:var(--muted);margin-top:14px">Baseado no sfg‑TPO (edição setembro 2025). Cada item tem uma referência de capítulo e parágrafo para revisão rápida.</p>
+
+    <details style="margin-top:10px">
+      <summary>Como usar</summary>
+      <ul>
+        <li><b>Estudo:</b> vê certo/errado e explicação logo.</li>
+        <li><b>Exame:</b> respostas só no final; úteis para treinar.</li>
+        <li>Baralha a ordem ou começa num número específico.</li>
+        <li>Clica no <i>mapa</i> para saltar para qualquer pergunta.</li>
+      </ul>
+    </details>
+  </div>
+
+  <script>
+  /**
+   * Estrutura do item:
+   * { id, cap, par, tema, q, a: [opA, opB, opC, opD], r: índiceCorreto(0-3), tip: explicação }
+   */
+  const ITEMS = [
+    {id:1, cap:1, par:"1.1(2)", tema:"Cabeça da congregação; submissão à liderança de Cristo",
+      q:"Segundo o sfg‑TPO, qual é uma maneira prática de os anciãos mostrarem submissão à liderança de Cristo como cabeça da congregação?",
+      a:[
+        "Impor regras locais para garantir uniformidade",
+        "Aplicar as leis e princípios bíblicos, evitando impor opiniões pessoais",
+        "Delegar toda a disciplina ao superintendente de circuito",
+        "Priorizar tradições locais sobre orientações escritas"
+      ], r:1, tip:"Cap. 1, §1 pontos 1 e 3: entender/aplicar princípios bíblicos e evitar regras arbitrárias."},
+
+    {id:2, cap:1, par:"1.1(2)", tema:"Obediência ao escravo fiel e prudente",
+      q:"A quem os anciãos devem obedecer, demostrando respeito pela liderança teocrática?",
+      a:[
+        "Ao coordenador do corpo de anciãos em primeiro lugar",
+        "Aos servos ministeriais mais experientes",
+        "Ao ‘escravo fiel e prudente’ e a superintendentes designados (filial e SC)",
+        "À congregação em votação em cada decisão"
+      ], r:2, tip:"Cap. 1, §1 ponto 2."},
+
+    {id:3, cap:1, par:"1.2", tema:"Confidencialidade",
+      q:"Qual destas práticas <em>não</em> é apropriada quanto a assuntos confidenciais da congregação?",
+      a:[
+        "Evitar comentar o assunto com a esposa",
+        "Registar por escrito decisões necessárias",
+        "Nunca gravar conversas confidenciais",
+        "Partilhar apenas com anciãos envolvidos"
+      ], r:2, tip:"Cap. 1, §1 ponto 7: nunca gravar conversas confidenciais."},
+
+    {id:4, cap:1, par:"2", tema:"Periodicidade das reuniões de anciãos",
+      q:"Quando, em circunstâncias normais, deve realizar‑se uma reunião de anciãos?",
+      a:["Mensalmente","A cada 3 meses após a visita do SC","Apenas quando houver casos judicativos","Duas vezes por ano"], r:1, tip:"Cap. 1, §2."},
+
+    {id:5, cap:1, par:"5", tema:"Agenda da reunião de anciãos",
+      q:"Quem prepara a agenda para a reunião realizada durante a visita do superintendente de circuito?",
+      a:["O coordenador do corpo de anciãos","O secretário","O próprio superintendente de circuito","Qualquer ancião designado"], r:2, tip:"Cap. 1, §5: na visita do SC, ele prepara a agenda."},
+
+    {id:6, cap:1, par:"6", tema:"Duração e condução da reunião",
+      q:"Qual é o limite de duração indicado para uma reunião de anciãos?",
+      a:["1 hora","2 horas","3 horas","Sem limite, consoante o assunto"], r:1, tip:"Cap. 1, §6: não deve durar mais do que 2 horas."},
+
+    {id:7, cap:1, par:"6", tema:"Oração adicional",
+      q:"O que se recomenda se não for possível chegar a acordo durante a reunião?",
+      a:["Adiar a reunião","Votar e seguir a maioria","Orar novamente pedindo sabedoria","Pedir de imediato orientação à filial"], r:2, tip:"Cap. 1, §6: deve orar‑se novamente (Tia. 1:5)."},
+
+    {id:8, cap:1, par:"7", tema:"Unanimidade e minoria",
+      q:"Se a decisão do corpo de anciãos não for unânime, o que se espera da minoria?",
+      a:["Que apresente objeção formal por escrito","Que apoie a decisão final e, se necessário, trate do assunto com o SC na visita","Que peça revisão ao coordenador","Que suspenda a decisão até nova análise"], r:1, tip:"Cap. 1, §7."},
+
+    {id:9, cap:1, par:"8", tema:"Quando não há lei ou instrução específica",
+      q:"Quando não há lei bíblica específica nem instruções do escravo fiel, em que se deve basear o corpo de anciãos?",
+      a:["Em usos locais","No critério e na consciência do grupo","No costume mais antigo","Na decisão do coordenador"], r:1, tip:"Cap. 1, §8."},
+
+    {id:10, cap:1, par:"8", tema:"Assuntos urgentes",
+      q:"Num assunto urgente que requer ajuda da filial, qual é o procedimento indicado?",
+      a:["Um ancião liga","Dois anciãos ligam em conjunto e anotam a orientação","Enviar carta registada","Aguardar até à visita do SC"], r:1, tip:"Cap. 1, §8."},
+
+    {id:11, cap:1, par:"10", tema:"Comissão de serviço — composição",
+      q:"Quem compõe a comissão de serviço da congregação?",
+      a:[
+        "Coordenador, secretário e superintendente do serviço",
+        "Coordenador, conselheiro assistente e secretário",
+        "Secretário, dois servos ministeriais",
+        "Coordenador e dois anciãos à escolha"
+      ], r:0, tip:"Cap. 1, §10."},
+
+    {id:12, cap:1, par:"11", tema:"Designação do coordenador do corpo de anciãos",
+      q:"Quem designa o coordenador do corpo de anciãos?",
+      a:["Corpo de anciãos","Filial","Congregação por voto","Superintendente de circuito"], r:3, tip:"Cap. 1, §11."},
+
+    {id:13, cap:1, par:"11", tema:"Idade do coordenador",
+      q:"Segundo o sfg‑TPO, o coordenador do corpo de anciãos deve ter…",
+      a:["menos de 70 anos","menos de 75 anos","menos de 80 anos","qualquer idade"], r:2, tip:"Cap. 1, §11."},
+
+    {id:14, cap:1, par:"12", tema:"Responsabilidades do coordenador",
+      q:"Qual destas não é uma responsabilidade do coordenador do corpo de anciãos?",
+      a:[
+        "Designar presidentes da reunião de fim de semana",
+        "Aprovar todos os anúncios",
+        "Auditar pessoalmente as contas todos os meses",
+        "Providenciar quem entrevista candidatos a publicador não batizado"
+      ], r:2, tip:"Cap. 1, §12: providencia auditoria, mas não há requisito de <em>auditar pessoalmente todos os meses</em>."},
+
+    {id:15, cap:1, par:"13-14", tema:"Secretário — perfil",
+      q:"Que combinação descreve o perfil esperado do secretário?",
+      a:[
+        "Bom organizador, não adia tarefas e escreve de modo claro",
+        "Orador experiente e pregador regular",
+        "Capaz de usar multimédia e áudio",
+        "Principal responsável por discursos públicos"
+      ], r:0, tip:"Cap. 1, §§13‑14."},
+
+    {id:16, cap:1, par:"15-17", tema:"Superintendente do serviço — foco",
+      q:"Qual é a ênfase principal do superintendente do serviço?",
+      a:[
+        "Planeamento financeiro da congregação",
+        "Participação e eficácia dos publicadores no ministério",
+        "Coordenação de obras no Salão do Reino",
+        "Aprovação de anúncios congregacionais"
+      ], r:1, tip:"Cap. 1, §15."},
+
+    {id:17, cap:1, par:"16", tema:"Acessibilidade de publicações",
+      q:"Quem deve certificar‑se de que publicações em formatos acessíveis (ex.: para cegos) são providenciadas quando pedidas?",
+      a:["Secretário","Coordenador","Superintendente do serviço","Servo de contas"], r:2, tip:"Cap. 1, §16."},
+
+    {id:18, cap:1, par:"17", tema:"Visita aos grupos",
+      q:"Com que frequência o superintendente do serviço visita cada grupo de serviço de campo?",
+      a:["Mensalmente","Trimestralmente","Pelo menos uma vez por ano","A cada visita do SC"], r:2, tip:"Cap. 1, §17."},
+
+    {id:19, cap:1, par:"18-19", tema:"Superintendente de grupo — responsabilidades",
+      q:"Qual das seguintes <em>faz</em> parte das responsabilidades do superintendente de grupo?",
+      a:[
+        "Recolher donativos para o equipamento de som",
+        "Dirigir a reunião para o serviço de campo do grupo, principalmente aos fins de semana",
+        "Elaborar o programa da Reunião Vida e Ministério",
+        "Aprovar o orçamento de literatura"
+      ], r:1, tip:"Cap. 1, §19(1)."},
+
+    {id:20, cap:1, par:"20", tema:"Exemplaridade",
+      q:"O que identifica corretamente um cristão ‘exemplar’ para efeitos de privilégios?",
+      a:[
+        "Ter muitas horas no relatório",
+        "Não trazer vitupério e ser digno de imitação em conduta e adoração",
+        "Ser pioneiro regular",
+        "Conduzir a contabilidade da congregação"
+      ], r:1, tip:"Cap. 1, §20."},
+
+    {id:21, cap:1, par:"21-22", tema:"Uso de servos ministeriais",
+      q:"Quando podem servos ministeriais servir como servos/ajudantes de grupo?",
+      a:["Quando há poucos anciãos capazes para essas funções","Nunca","Apenas com aprovação da congregação por voto","Apenas se também forem pioneiros"], r:0, tip:"Cap. 1, §21."},
+
+    {id:22, cap:1, par:"23-24", tema:"Uso de menores e não batizados",
+      q:"Qual destas condições é necessária ao designar um menor (sexo masculino) para tarefas congregacionais?",
+      a:[
+        "Ter pelo menos 16 anos",
+        "Ser batizado obrigatoriamente",
+        "Permissão de um dos pais/representantes legais e tarefas apropriadas; sem supervisionar outros",
+        "Pode supervisionar se for exemplar"
+      ], r:2, tip:"Cap. 1, §§23‑24."},
+
+    {id:23, cap:1, par:"25", tema:"Reuniões por videoconferência",
+      q:"Em que circunstâncias se podem realizar reuniões de anciãos por telefone ou videoconferência?",
+      a:[
+        "Sempre que for mais cómodo",
+        "Quando a maioria não puder presencialmente por circunstâncias excecionais (ex.: restrições, agitação, desastre)",
+        "Nunca, é proibido",
+        "Apenas com autorização escrita da filial"
+      ], r:1, tip:"Cap. 1, §25."},
+
+    {id:24, cap:1, par:"26", tema:"Formulário S‑29",
+      q:"Para que serve o formulário S‑29?",
+      a:["Relatórios mensais de serviço","Mudança de coordenador do corpo de anciãos ou de secretário","Pedido de literatura extra","Relato de contas"], r:1, tip:"Cap. 1, §26."},
+
+    {id:25, cap:1, par:"4", tema:"Quem preside e lê",
+      q:"Quem decide que irmãos podem presidir reuniões e cuidar de partes não designadas a estudantes na reunião de semana?",
+      a:["Coordenador sozinho","Corpo de anciãos","Secretário","Superintendente do serviço"], r:1, tip:"Cap. 1, §4."},
+
+    {id:26, cap:2, par:"1(1)", tema:"Responsabilidade principal",
+      q:"Qual é a responsabilidade principal dos anciãos, segundo o sfg‑TPO?",
+      a:["Organizar eventos sociais","Pastorear o rebanho de Deus sob os seus cuidados","Administrar finanças","Fazer obras no Salão do Reino"], r:1, tip:"Cap. 2, §1; 1 Pe 5:2‑3."},
+
+    {id:27, cap:2, par:"1(1)", tema:"Âmbito do pastoreio",
+      q:"O amor dos anciãos deve levar a que mostrem interesse em que aspetos?",
+      a:["Apenas necessidades espirituais","Necessidades espirituais, emocionais e físicas, sem se intrometer em assuntos pessoais","Somente físicos e logísticos","Principalmente administrativos"], r:1, tip:"Cap. 2, §1(1)."},
+
+    {id:28, cap:2, par:"1(3)", tema:"Objetivo do pastoreio",
+      q:"Qual é um objetivo declarado do pastoreio?",
+      a:["Recolher dados para relatórios","Transmitir um dom espiritual que fortaleça a fé e dar elogios e conselhos necessários","Estabelecer regras locais","Uniformizar rotinas"], r:1, tip:"Cap. 2, §1(3)."},
+
+    {id:29, cap:2, par:"1(5-7)", tema:"Ferramentas e atitude",
+      q:"Que combinação reflete corretamente a abordagem indicada para pastorear?",
+      a:[
+        "Falar mais do que ouvir; focar opiniões pessoais",
+        "Usar habilmente a Palavra de Deus; estar pronto para ouvir; manter confidencialidade",
+        "Evitar usar a Bíblia para não expor a pessoa",
+        "Partilhar detalhes com a família para apoio"
+      ], r:1, tip:"Cap. 2, §1(5‑7)."},
+
+    {id:30, cap:2, par:"2(1)", tema:"Quem acompanha",
+      q:"Se é provável que surja um assunto grave/confidencial numa visita de pastoreio, quem deve ir?",
+      a:["Um ancião e um SM","Dois anciãos","Qualquer par de publicadores maduros","Um ancião sozinho"], r:1, tip:"Cap. 2, §2(1)."},
+
+    {id:31, cap:2, par:"2(4)", tema:"Tempo combinado",
+      q:"Que diretriz se dá sobre a duração de uma visita de pastoreio?",
+      a:["Sem limite","Cumprir o tempo combinado; marcar outra se necessário","Mínimo 90 minutos","Depende do tema; quanto mais, melhor"], r:1, tip:"Cap. 2, §2(4)."},
+
+    {id:32, cap:2, par:"3", tema:"Treinar SM",
+      q:"Como podem os anciãos ajudar os servos ministeriais a desenvolver qualidades de pastor?",
+      a:["Atribuindo relatórios","Levando‑os, quando apropriado, em visitas de pastoreio e dando feedback","Pondo‑os a gerir finanças","Pedindo discursos extra"], r:1, tip:"Cap. 2, §3."},
+
+    {id:33, cap:2, par:"4", tema:"Casamento — parcialidade",
+      q:"Quando só um dos cônjuges está presente, o que devem os anciãos considerar?",
+      a:["Ambos os lados de imediato","Apenas o que esse cônjuge pode fazer para melhorar","Suspender até estarem ambos","Procurar testemunhas"], r:1, tip:"Cap. 2, §4."},
+
+    {id:34, cap:2, par:"5", tema:"Divórcio e novo casamento",
+      q:"Qual é a afirmação correta segundo o sfg‑TPO?",
+      a:[
+        "Qualquer divórcio legal dá liberdade bíblica para novo casamento",
+        "Os anciãos devem incentivar a separação em caso de conflito",
+        "Um divórcio legal, por si só, não dá liberdade bíblica para novo casamento",
+        "Os anciãos proíbem qualquer separação"
+      ], r:2, tip:"Cap. 2, §5 (Mat. 19:9)."},
+
+    {id:35, cap:2, par:"6", tema:"Pornografia — acompanhamento",
+      q:"Quanto à ajuda a quem luta com pornografia, o que é indicado?",
+      a:[
+        "Uma única visita resolve",
+        "Frequência/ tipo do pastoreio variam consoante o envolvimento; incentivar rotina espiritual diária",
+        "Evitar envolver o cônjuge",
+        "Apenas literatura, sem visitas"
+      ], r:1, tip:"Cap. 2, §6."},
+
+    {id:36, cap:2, par:"7", tema:"Ajudar irmãs — salvaguardas",
+      q:"Qual diretriz está correta ao pastorear irmãs?",
+      a:[
+        "É aceitável um ancião ser o único confidente de uma irmã sem laços familiares",
+        "Se não for possível falar à vista de outros, um ancião deve estar acompanhado por outro ancião/SM",
+        "É preferível comunicar por mensagens privadas",
+        "Ter encontros isolados regulares é encorajado"
+      ], r:1, tip:"Cap. 2, §7."},
+
+    {id:37, cap:2, par:"8", tema:"Batizados recentemente",
+      q:"Que acompanhamento merecem os batizados recentemente?",
+      a:[
+        "Nenhum especial",
+        "Atenção contínua, incluindo assegurar a conclusão do «Seja Feliz para Sempre!»",
+        "Apenas conversas antes da reunião",
+        "Avaliação anual"
+      ], r:1, tip:"Cap. 2, §8."},
+
+    {id:38, cap:2, par:"9", tema:"Noivos",
+      q:"Qual enfoque é apropriado para os que estão noivos?",
+      a:[
+        "Planeamento financeiro sobretudo",
+        "Investigação bíblica e publicações; determinação de permanecer castos; cerimónia que honra a Jeová",
+        "Escolha de local e decoração",
+        "Definir playlist de música"
+      ], r:1, tip:"Cap. 2, §9."},
+
+    {id:39, cap:2, par:"10", tema:"Menores",
+      q:"Ao ajudar um menor, qual regra se aplica sempre?",
+      a:["Permitir encontros a sós se for urgente","Um ancião nunca se deve reunir sozinho com um menor; incluir os pais/representantes","Falar apenas por telefone","Pedir autorização do coordenador por escrito"], r:1, tip:"Cap. 2, §10."},
+
+    {id:40, cap:2, par:"11-15", tema:"Inativos — princípios",
+      q:"Qual afirmação está correta quanto aos inativos?",
+      a:[
+        "Se alguém pedir para não ser contactado, insistir regularmente",
+        "Designar cada inativo a um grupo; convite anual para discurso especial e Memorial",
+        "Não é apropriado oferecer a brochura ‘Volte para Jeová’",
+        "Só um ancião pode ajudar quem regressa"
+      ], r:1, tip:"Cap. 2, §§12‑15."},
+
+    {id:41, cap:2, par:"14(2)", tema:"Estudo para inativos",
+      q:"Se um inativo há muito tempo deseja voltar, o que se pode providenciar antes mesmo da readmissão?",
+      a:["Nada","Estudo bíblico designado pelos anciãos, com publicação adequada, por tempo definido","Privilégios imediatos","Participação no ministério sem avaliação"], r:1, tip:"Cap. 2, §14(2)."},
+
+    {id:42, cap:2, par:"16-17", tema:"Vítimas de abuso de menores",
+      q:"Qual é um princípio claro ao pastorear vítimas de abuso de menores?",
+      a:[
+        "Aprofundar sempre os detalhes para completa compreensão",
+        "Ser equilibrado; ouvir com empatia; o apoio de outros cristãos maduros pode ajudar; ajuda profissional é decisão pessoal",
+        "Evitar usar as Escrituras para não reabrir feridas",
+        "Limitar a ajuda a um único ancião"
+      ], r:1, tip:"Cap. 2, §§16‑17."},
+
+    {id:43, cap:2, par:"17", tema:"Quem deve estar presente (abuso)",
+      q:"Numa visita a uma irmã adulta vítima de abuso de menores, quem deve pastorear?",
+      a:["Um ancião","Dois anciãos","Um ancião e uma irmã madura","Apenas o marido"], r:1, tip:"Cap. 2, §17."},
+
+    {id:44, cap:2, par:"18", tema:"Suicídio/depressão",
+      q:"Como abordar quem ameaça suicidar‑se ou tentou fazê‑lo?",
+      a:[
+        "Com dureza para corrigir rapidamente",
+        "Com cuidado e compaixão; assegurar ajuda; usar Escrituras e publicações apropriadas",
+        "Evitar o tema",
+        "Encaminhar apenas para profissionais, sem pastoreio"
+      ], r:1, tip:"Cap. 2, §18."},
+
+    {id:45, cap:2, par:"2(5)", tema:"Oração na visita",
+      q:"O que incluir na oração durante a visita de pastoreio?",
+      a:["Apenas um pedido genérico","Nomes e provações da pessoa/família, pedindo ajuda de Jeová","Detalhes dos pecados","Pedidos por donativos"], r:1, tip:"Cap. 2, §2(5)."},
+
+    {id:46, cap:2, par:"6", tema:"Cônjuges e pornografia",
+      q:"Se a pessoa casada luta com pornografia, que encorajamento se dá?",
+      a:["Não envolver o cônjuge para evitar dor","Revelar o assunto ao cônjuge e dar‑lhe apoio espiritual","Apenas orar em segredo","Tratar como assunto não conjugal"], r:1, tip:"Cap. 2, §6."},
+
+    {id:47, cap:2, par:"7", tema:"Mensagens eletrónicas",
+      q:"Qual é o risco mencionado sobre comunicação eletrónica com irmãs?",
+      a:["É sempre segura","Pode rapidamente evoluir para sentimentos e expressões impróprias","É preferível ao contacto presencial","Evita mal‑entendidos"], r:1, tip:"Cap. 2, §7."},
+
+    {id:48, cap:2, par:"11(1)", tema:"Motivação de inativos",
+      q:"Qual destas ideias é verdadeira sobre inativos?",
+      a:[
+        "Geralmente não querem voltar",
+        "Frequentemente querem voltar, mas precisam de ajuda",
+        "Devem ser ignorados para não pressionar",
+        "Só reagem se chamados à atenção publicamente"
+      ], r:1, tip:"Cap. 2, §11(2)."},
+
+    {id:49, cap:2, par:"11(4-5)", tema:"Paciência e bondade",
+      q:"Que dupla de princípios é destacada ao ajudar inativos?",
+      a:["Insistência e disciplina","Bondade e paciência","Neutralidade total e distância","Formalidade e procedimento"], r:1, tip:"Cap. 2, §11(4‑5)."},
+
+    {id:50, cap:2, par:"15", tema:"Pecado grave e retorno",
+      q:"Se um inativo cometeu pecado grave e deseja voltar, o que se faz?",
+      a:["Entrar de imediato na atividade normal","Seguir as orientações do cap. 6 para casos judicativos e ajuda ao arrependimento","Esperar 1 ano","Transferir para outra congregação"], r:1, tip:"Cap. 2, §15."},
+
+    {id:51, cap:3, par:"1", tema:"Exemplo no ministério",
+      q:"Que atitude devem os anciãos ter relativamente ao ministério?",
+      a:[
+        "Foco administrativo; ministério é secundário",
+        "Tomar a dianteira, motivando participação cabal dos publicadores",
+        "Deixar o ministério para os pioneiros",
+        "Pedir relatórios, sem treinar"
+      ], r:1, tip:"Cap. 3, §1."},
+
+    {id:52, cap:3, par:"2", tema:"Cobertura de território",
+      q:"Com que objetivo a congregação deve esforçar‑se quanto ao território?",
+      a:["Cobrir todo o território pelo menos uma vez por ano","Cobrir o máximo possível sem meta","Cobrir apenas áreas favoráveis","Alternar por zonas a cada 3 anos"], r:0, tip:"Cap. 3, §2."},
+
+    {id:53, cap:3, par:"3", tema:"Reuniões para o serviço de campo",
+      q:"Quem determina locais e horários das reuniões para o serviço de campo?",
+      a:["Corpo de anciãos em pleno","Comissão de serviço da congregação","Coordenador","Superintendente do serviço sozinho"], r:1, tip:"Cap. 3, §3."},
+
+    {id:54, cap:3, par:"4(1)", tema:"Local para testemunho público",
+      q:"Qual é um critério <em>necessário</em> ao escolher um local para testemunho público?",
+      a:[
+        "Ser fora do território para alcançar mais pessoas",
+        "Estar dentro dos limites do território da congregação",
+        "Ser o local preferido pelos publicadores",
+        "Permitir música ambiente"
+      ], r:1, tip:"Cap. 3, §4(1)."},
+
+    {id:55, cap:3, par:"4(2)", tema:"Visibilidade",
+      q:"O ponto principal sobre visibilidade do local de testemunho público é…",
+      a:[
+        "ser discreto para evitar conversas",
+        "ser numa zona de grande passagem (terminais, praças, ruas, etc.)",
+        "ser apenas junto a lojas religiosas",
+        "ser numa zona de estacionamento"
+      ], r:1, tip:"Cap. 3, §4(2)."},
+
+    {id:56, cap:3, par:"4(3)", tema:"Legalidade local",
+      q:"O uso do espaço escolhido para testemunho público deve estar…",
+      a:["Conforme aos costumes","Conforme à legislação local","Autorizado pelo coordenador","Definido em ata"], r:1, tip:"Cap. 3, §4(3)."},
+
+    {id:57, cap:3, par:"5", tema:"Programação do testemunho público",
+      q:"Quem faz a programação para cada local de testemunho público?",
+      a:["Coordenador","Secretário","Superintendente do serviço","Comissão de contas"], r:2, tip:"Cap. 3, §5."},
+
+    {id:58, cap:3, par:"6(2)", tema:"Arte gráfica",
+      q:"Que materiais podem ser exibidos no equipamento de testemunho público?",
+      a:["Arte gráfica aprovada pela filial","Qualquer cartaz bíblico feito localmente","Mensagens de incentivo criadas pelos publicadores","Anúncios de eventos locais"], r:0, tip:"Cap. 3, §6(2)."},
+
+    {id:59, cap:3, par:"6(3)", tema:"Ecrã e conteúdos",
+      q:"O que é aceitável apresentar num ecrã ligado a um dispositivo no quiosque?",
+      a:[
+        "Vídeos longos de assembleias completos",
+        "Pósteres aprovados, funcionalidades do jw.org e um breve vídeo como ‘Porque Estudar a Bíblia?’",
+        "Qualquer canal cristão",
+        "Listas de reprodução pessoais"
+      ], r:1, tip:"Cap. 3, §6(3)."},
+
+    {id:60, cap:3, par:"7(1-2)", tema:"Quem pode participar",
+      q:"Quem deve ser aprovado para participar no testemunho público?",
+      a:[
+        "Qualquer publicador, independentemente da aparência",
+        "Publicadores batizados dignos, com aparência e roupa modestas; discernimento e cooperação",
+        "Apenas pioneiros",
+        "Jovens não batizados sem supervisão"
+      ], r:1, tip:"Cap. 3, §7."},
+
+    {id:61, cap:3, par:"7(3-4)", tema:"Menores no testemunho público",
+      q:"Qual opção reflete corretamente a participação de menores no testemunho público?",
+      a:[
+        "Menor não batizado pode participar sem os pais",
+        "Filho menor bem‑comportado pode acompanhar pai/mãe aprovado; bom senso quanto a menor batizado maduro",
+        "Só maiores de 18",
+        "Menores só podem transportar carrinho"
+      ], r:1, tip:"Cap. 3, §7(3‑4)."},
+
+    {id:62, cap:3, par:"8", tema:"Treino",
+      q:"Quem deve receber treino inicial para o testemunho público e com base em quê?",
+      a:[
+        "Todos os publicadores, baseado em preferências locais",
+        "SGs, seus ajudantes e participantes escolhidos; com base no S‑148",
+        "Apenas pioneiros; sem documento específico",
+        "Coordenador e secretário; com S‑27"
+      ], r:1, tip:"Cap. 3, §8."},
+
+    {id:63, cap:3, par:"9", tema:"Literatura disponível",
+      q:"Quanto à literatura no equipamento de testemunho público, que opção está correta?",
+      a:[
+        "Apenas revistas em português",
+        "Podem incluir revistas e publicações frequentemente pedidas noutras línguas, consoante as circunstâncias",
+        "Não se deve ter literatura visível",
+        "Apenas livros"
+      ], r:1, tip:"Cap. 3, §9."},
+
+    {id:64, cap:3, par:"10", tema:"Lares e casas de repouso",
+      q:"Quem é contactado preferencialmente quando se pretende visitar lares/casas de repouso?",
+      a:["Os residentes individualmente","Administrador/diretor de atividades do local","Serviços sociais municipais","Famílias dos residentes"], r:1, tip:"Cap. 3, §10."},
+
+    {id:65, cap:3, par:"11-12", tema:"Iniciativas da filial",
+      q:"Quais são iniciativas especiais organizadas pela filial (quando aplicável)?",
+      a:[
+        "Testemunho público especial em regiões metropolitanas e testemunho em portos",
+        "Testemunho nas escolas primárias",
+        "Testemunho porta‑a‑porta exclusivamente",
+        "Eventos musicais públicos"
+      ], r:0, tip:"Cap. 3, §11."},
+
+    {id:66, cap:3, par:"13(2)", tema:"Pedidos para não voltar",
+      q:"Se um morador insiste que não se volte a visitar a sua casa, o que se faz?",
+      a:[
+        "Registar no cartão do território a data e morada e respeitar o pedido",
+        "Voltar com outro publicador ao fim de 1 semana",
+        "Ignorar se não foi por escrito",
+        "Entregar panfletos mesmo assim"
+      ], r:0, tip:"Cap. 3, §13(2)."},
+
+    {id:67, cap:3, par:"13(3-4)", tema:"Autoridades e oposição",
+      q:"Se um administrador proíbe visitas a um condomínio, ou se surge oposição violenta, qual passo está correto?",
+      a:[
+        "Persistir até chamar a polícia",
+        "Contactar o Departamento Jurídico e orientar ministério discreto para evitar problemas",
+        "Abandonar o ministério completamente",
+        "Discutir direitos legais com agressividade"
+      ], r:1, tip:"Cap. 3, §13(3‑4)."},
+
+    {id:68, cap:3, par:"14-15", tema:"Designações teocráticas adicionais",
+      q:"Como devem os anciãos encarar publicadores com designações teocráticas adicionais (ex.: manutenção, construção)?",
+      a:[
+        "Cobrar-lhes metas iguais no campo sem considerar ausências",
+        "Mostrar apreço e substituí‑los quando ausentes; consideração ao avaliar qualificações",
+        "Reduzir privilégios",
+        "Não registar observações relacionadas"
+      ], r:1, tip:"Cap. 3, §§14‑15."},
+
+    {id:69, cap:3, par:"15", tema:"Registos de horas",
+      q:"Como se registam atividades de designações aprovadas de quem não é pioneiro regular?",
+      a:["Contam para horas no S‑21","Incluem‑se só nas ‘Horas’ do pioneiro auxiliar","Podem mencionar‑se em ‘Observações’; não contam como horas enviadas à filial","Não se registam de forma alguma"], r:2, tip:"Cap. 3, §15."},
+
+    {id:70, cap:3, par:"16(1-4)", tema:"Licenças e autorizações",
+      q:"Se for legalmente exigida licença para usar um carrinho móvel, quem deve fazer o pedido e pagar taxas pequenas?",
+      a:[
+        "Em nome da congregação; paga a congregação",
+        "Em nome de um publicador; paga o publicador",
+        "Em nome das Testemunhas de Jeová; paga a filial",
+        "Em nome do coordenador; paga o coordenador"
+      ], r:1, tip:"Cap. 3, §16."},
+
+    {id:71, cap:3, par:"17", tema:"Seguro/administradores",
+      q:"Que abordagem é recomendada ao falar com administradores sobre seguro e uso de espaço?",
+      a:[
+        "Debate legal formal e exigente",
+        "Reunião informal, explicando a natureza voluntária/educacional; procurar outros locais se taxa excessiva",
+        "Evitar qualquer explicação",
+        "Insistir sempre em seguro completo"
+      ], r:1, tip:"Cap. 3, §17."},
+
+    {id:72, cap:3, par:"3", tema:"Videoconferência — reuniões de campo",
+      q:"Quando pode a comissão de serviço incluir a opção de videoconferência para reuniões de campo?",
+      a:["Nunca","Quando as circunstâncias impedem alguns de assistir presencialmente","Apenas durante pandemias","Sempre que for mais cómodo"], r:1, tip:"Cap. 3, §3."},
+
+    {id:73, cap:3, par:"2(4)", tema:"Mapas de território",
+      q:"Que documento mostra os limites dos territórios individuais e normalmente se apresenta num mapa maior da área?",
+      a:["S‑54","S‑6","S‑12 (Cartões de Mapa de Território)","S‑13"], r:2, tip:"Cap. 3, §2(3)."},
+
+    {id:74, cap:3, par:"2(1-4)", tema:"Documentos de território",
+      q:"Qual conjunto corresponde corretamente à função?",
+      a:[
+        "S‑54 define limites da congregação; S‑6 pede ajustes; S‑12 apresenta limites dos territórios; S‑13 regista designações",
+        "S‑54 regista designações; S‑6 é para literatura; S‑12 é contas; S‑13 é mapas",
+        "S‑54 é JW Hub; S‑6 é cong. vizinha; S‑12 é relatório; S‑13 é donativos",
+        "Todos são mapas"
+      ], r:0, tip:"Cap. 3, §2."},
+
+    {id:75, cap:3, par:"1", tema:"Proteção de dados",
+      q:"As facetas do ministério pessoal devem estar em harmonia com…",
+      a:["Apenas as orientações internas","As leis de proteção de dados aplicáveis","Costumes locais","Preferências pessoais"], r:1, tip:"Cap. 3, §1."},
+
+    {id:76, cap:4, par:"1-2", tema:"Reuniões — princípio geral",
+      q:"Quem provê instrução e encorajamento nas reuniões, assembleias e congressos?",
+      a:["Corpos locais de anciãos","O ‘escravo fiel e prudente’ por meio das reuniões cristãs","Oradores convidados externos","Comissões ad hoc"], r:1, tip:"Cap. 4, §1 (Mat. 24:45)."},
+
+    {id:77, cap:4, par:"2", tema:"Horários",
+      q:"Que combinação é correta quanto aos horários padrão?",
+      a:[
+        "Vida e Ministério ao fim de semana; Discurso/Estudo de A Sentinela durante a semana",
+        "Vida e Ministério durante a semana; Discurso público e Estudo de A Sentinela ao fim de semana",
+        "Ambas ao mesmo dia sempre",
+        "Decide‑se mensalmente por voto"
+      ], r:1, tip:"Cap. 4, §2."},
+
+    {id:78, cap:4, par:"4", tema:"Rotação anual de horários",
+      q:"Se as congregações partilham o Salão e decidem rodar horários anualmente, quando o devem fazer?",
+      a:["Primeira semana de janeiro","Primeira semana de setembro","Após cada visita do SC","No Memorial"], r:0, tip:"Cap. 4, §4."},
+
+    {id:79, cap:4, par:"5", tema:"Duas reuniões de fim de semana",
+      q:"Quando pode o corpo de anciãos programar duas reuniões de fim de semana?",
+      a:["Quando a assistência é baixa","Quando a de fim de semana está sobrelotada e há possibilidade noutro horário","Nunca","Apenas com autorização da filial"], r:1, tip:"Cap. 4, §5."},
+
+    {id:80, cap:4, par:"6-7", tema:"Reuniões não presenciais",
+      q:"Se não for seguro realizar uma reunião presencialmente, qual opção está correta?",
+      a:[
+        "Cancelar definitivamente",
+        "Realizar por videoconferência, reprogramar noutra ocasião, ou dar link do JW Stream — decisão do corpo; para períodos prolongados, considerar com o SC",
+        "Substituir por nota de texto",
+        "Deixar à decisão individual"
+      ], r:1, tip:"Cap. 4, §§6‑7."},
+
+    {id:81, cap:4, par:"8", tema:"Oradores públicos — preparação",
+      q:"Que material devem usar os oradores públicos?",
+      a:[
+        "Esboços providenciados pela organização (S‑99/S‑99a), usando também lembretes S‑141",
+        "Esboços pessoais com temas atuais",
+        "Qualquer artigo secular",
+        "Notas improvisadas"
+      ], r:0, tip:"Cap. 4, §8."},
+
+    {id:82, cap:4, par:"9(1-2)", tema:"Quem pode proferir discursos",
+      q:"Que avaliação é indicada ao designar oradores públicos locais?",
+      a:[
+        "Qualquer ancião automaticamente",
+        "Avaliar capacidades com equilíbrio; alguns podem não qualificar‑se, e não‑experientes podem apresentar 15 minutos iniciais",
+        "Só o coordenador decide sem consulta",
+        "Apenas servos ministeriais"
+      ], r:1, tip:"Cap. 4, §9."},
+
+    {id:83, cap:4, par:"10", tema:"Oradores visitantes",
+      q:"Que prática é preferível para oradores visitantes?",
+      a:[
+        "Fazer discursos fora semanalmente",
+        "Não mais do que uma vez por mês; e, se prático, por videoconferência não mais de uma vez por mês",
+        "Apenas por videoconferência sempre",
+        "Sem limites"
+      ], r:1, tip:"Cap. 4, §10."},
+
+    {id:84, cap:4, par:"11", tema:"Recursos visuais",
+      q:"Onde se encontram as orientações sobre o uso de recursos visuais?",
+      a:["No S‑27","Nos ‘Lembretes para os Oradores Públicos’","No S‑148","No S‑56"], r:1, tip:"Cap. 4, §11."},
+
+    {id:85, cap:4, par:"12", tema:"Dirigente do Estudo de A Sentinela",
+      q:"Quem deve dirigir o estudo de A Sentinela?",
+      a:[
+        "Qualquer irmão com boa leitura",
+        "Um ancião entre os melhores instrutores, capaz de falar com grande confiança",
+        "Um servo ministerial com boa memória",
+        "O coordenador sempre"
+      ], r:1, tip:"Cap. 4, §12."},
+
+    {id:86, cap:4, par:"13(2-3)", tema:"Condução do estudo",
+      q:"Que conjunto está de acordo com as diretrizes para conduzir partes com perguntas e respostas?",
+      a:[
+        "Falar bastante para complementar a assistência",
+        "Estimular participação; não falar demais; focar nos textos e valor prático; usar imagens; gerir o tempo",
+        "Introduzir todos os parágrafos com resumo",
+        "Focar notas e detalhes mínimos"
+      ], r:1, tip:"Cap. 4, §13."},
+
+    {id:87, cap:4, par:"13(5)", tema:"Gestão do tempo",
+      q:"Qual é o tempo indicado para os comentários iniciais e finais do estudo de A Sentinela e a duração total?",
+      a:[
+        "5 minutos iniciais e finais; 90 minutos de estudo",
+        "Até 1,5 minuto iniciais/finais; estudo 60 minutos (30 na visita do SC, sem leitura de parágrafos)",
+        "Sem limite; quanto mais melhor",
+        "Introduções detalhadas e 45 minutos"
+      ], r:1, tip:"Cap. 4, §13(5)."},
+
+    {id:88, cap:4, par:"15", tema:"Conselheiro assistente",
+      q:"Qual é a função do conselheiro assistente?",
+      a:[
+        "Dar discursos semanais",
+        "Dar conselhos em particular a anciãos/SM sobre designações de oratória, quando necessário",
+        "Auditar contas",
+        "Aprovar programação de reuniões"
+      ], r:1, tip:"Cap. 4, §15."},
+
+    {id:89, cap:4, par:"16-17", tema:"Leitores e textos ‘Leia’",
+      q:"Quem deve ler os textos indicados como ‘Leia’ durante o estudo?",
+      a:[
+        "Sempre o dirigente",
+        "O leitor designado para os parágrafos ou um bom leitor na assistência, conforme o posicionamento do texto",
+        "Qualquer publicador",
+        "Ninguém, pois são só referência"
+      ], r:1, tip:"Cap. 4, §§16‑17."},
+
+    {id:90, cap:4, par:"18(1-2)", tema:"Necessidades locais",
+      q:"Quem decide o assunto e quem apresenta a parte de necessidades locais?",
+      a:[
+        "Comissão de contas",
+        "Corpo de anciãos decide assunto e ancião que apresentará, e quando",
+        "Congregação por voto",
+        "Secretário e coordenador"
+      ], r:1, tip:"Cap. 4, §18."},
+
+    {id:91, cap:4, par:"19", tema:"Cânticos",
+      q:"O que se indica sobre reprodução de cânticos nas reuniões?",
+      a:[
+        "Qualquer música cristã",
+        "Usar apenas ‘Cantemos com Alegria’ – Reuniões; volume apropriado antes e depois",
+        "Escolha livre de playlists",
+        "Reproduzir músicas de fundo durante todo o programa"
+      ], r:1, tip:"Cap. 4, §19; S‑144."},
+
+    {id:92, cap:4, par:"20-21(1)", tema:"Memorial — orador e orações",
+      q:"Quem deve proferir o discurso do Memorial e quem deve fazer as orações dos emblemas?",
+      a:[
+        "Qualquer publicador e qualquer pessoa presente",
+        "Um ancião capaz, preferencialmente presencial; orações por irmãos batizados exemplares, preferencialmente anciãos",
+        "Um servo ministerial e um publicador não batizado",
+        "Orador visitante por videoconferência obrigatoriamente"
+      ], r:1, tip:"Cap. 4, §21(1)."},
+
+    {id:93, cap:4, par:"21(3)", tema:"Horário do Memorial",
+      q:"Quando se devem passar os emblemas do Memorial?",
+      a:["Ao nascer do sol","Antes do pôr do sol","Após o pôr do sol","Em qualquer momento do dia"], r:2, tip:"Cap. 4, §21(3)."},
+
+    {id:94, cap:4, par:"20", tema:"Reuniões na semana do Memorial",
+      q:"O que acontece às reuniões congregacionais na semana do Memorial?",
+      a:[
+        "Ambas realizam‑se normalmente",
+        "Quando o Memorial é em dia de semana, não há Reunião Vida e Ministério; quando é ao fim de semana, não há reunião de fim de semana",
+        "Não há quaisquer reuniões nessa semana",
+        "Ficam ao critério do coordenador"
+      ], r:1, tip:"Cap. 4, §20."},
+
+    {id:95, cap:4, par:"22(1)", tema:"Anúncios prévios a assembleias",
+      q:"Quem providencia anúncios sobre assembleias/congressos e quando começar?",
+      a:[
+        "Secretário; 1 semana antes",
+        "Coordenador do corpo; começar 2–3 meses antes",
+        "Conselheiro assistente; 6 meses antes",
+        "Qualquer ancião; sem prazo"
+      ], r:1, tip:"Cap. 4, §22(1)."},
+
+    {id:96, cap:4, par:"12-13", tema:"Critérios do dirigente do estudo",
+      q:"Qual critério <em>não</em> é mencionado para escolher o dirigente do estudo de A Sentinela?",
+      a:[
+        "Ser um dos melhores instrutores",
+        "Capacidade de falar com grande confiança",
+        "Ser o ancião mais idoso",
+        "Usar textos e valor prático"
+      ], r:2, tip:"Cap. 4, §12."},
+
+    {id:97, cap:4, par:"8-9", tema:"Discursos públicos — prática local",
+      q:"Qual destas práticas está de acordo com o sfg‑TPO?",
+      a:[
+        "Aprovar um ancião com capacidades limitadas apenas para discursos na própria congregação",
+        "Permitir oradores visitantes semanalmente",
+        "Preparar discursos sem esboços oficiais",
+        "O conselheiro assistente aprova sozinho os oradores"
+      ], r:0, tip:"Cap. 4, §9."},
+
+    {id:98, cap:4, par:"6(3)", tema:"JW Stream",
+      q:"Qual é um uso indicado do JW Stream em situações específicas?",
+      a:[
+        "Substituir todas as reuniões semanais",
+        "Dar às pessoas o link de uma reunião gravada quando não é seguro reunir, incentivando a verem por conta",
+        "Transmitir música durante cânticos",
+        "Disponibilizar arquivos de contabilidade"
+      ], r:1, tip:"Cap. 4, §6(3)."},
+
+    {id:99, cap:4, par:"11", tema:"Recursos visuais — discursos de casamento/fúnebres",
+      q:"As orientações sobre recursos visuais aplicam‑se…",
+      a:[
+        "apenas a discursos públicos",
+        "também a outras reuniões, discursos de casamento e fúnebres",
+        "apenas à Reunião Vida e Ministério",
+        "só ao JW Stream"
+      ], r:1, tip:"Cap. 4, §11."},
+
+    {id:100, cap:4, par:"21(4)", tema:"Convidar inativos para o Memorial",
+      q:"Que esforço especial se recomenda relacionado ao Memorial?",
+      a:[
+        "Convidar especialmente os inativos no território para o discurso especial e o Memorial",
+        "Focar apenas publicadores ativos",
+        "Convidar apenas familiares",
+        "Evitar convites amplos"
+      ], r:0, tip:"Cap. 4, §21(4) e Cap. 2, §13."}
+  ];
+
+  // ====== Estado ======
+  let order = 'as-is';
+  let mode = 'study';
+  let index = 0;
+  const state = new Map(); // id -> {pick, correct}
+  let sequence = ITEMS.map((_,i)=>i);
+
+  // ====== Util ======
+  const $ = (sel)=>document.querySelector(sel);
+  const $$ = (sel)=>Array.from(document.querySelectorAll(sel));
+  const fmtRef = o => `Cap. ${o.cap}, §${o.par}`;
+
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}
+    return arr;
+  }
+
+  function applyOrder(){
+    sequence = ITEMS.map((_,i)=>i);
+    if(order==='shuffle') shuffle(sequence);
+    const start = Math.max(1, Math.min(ITEMS.length, +$('#startIndex').value||1)) - 1;
+    // rotate sequence so it starts at chosen index
+    sequence = sequence.slice(start).concat(sequence.slice(0,start));
+  }
+
+  function render(){
+    const o = ITEMS[sequence[index]];
+    $('#total').textContent = ITEMS.length;
+    const ans = Array.from(state.values()).filter(x=>x.pick!=null);
+    const ok = ans.filter(x=>x.correct).length;
+    $('#answered').textContent = ans.length;
+    $('#correct').textContent = ok;
+    $('#bar').style.width = `${(ans.length/ITEMS.length)*100}%`;
+
+    // mapa
+    const map = $('#map');
+    map.innerHTML = '';
+    sequence.forEach((i,slot)=>{
+      const s = state.get(ITEMS[i].id);
+      const div = document.createElement('button');
+      div.className = 'dot' + (slot===index?' focus':'') + (s? (s.correct?' ok':' bad') : '');
+      div.textContent = String(slot+1);
+      div.onclick = ()=>{ index = slot; render(); window.scrollTo({top:0,behavior:'smooth'});} 
+      map.appendChild(div);
+    });
+
+    // pergunta
+    const main = $('#main');
+    main.innerHTML = '';
+    const card = document.createElement('div');
+    card.className='qcard';
+    card.innerHTML = `
+      <div class="qmeta">
+        <span class="pill">#${index+1}</span>
+        <span class="pill">Capítulo ${o.cap}</span>
+        <span class="pill">${o.tema}</span>
+        <span class="pill">${fmtRef(o)}</span>
+      </div>
+      <div class="qtext">${o.q}</div>
+      <div class="choices"></div>
+      <div class="explain" style="display:none"></div>
+    `;
+    main.appendChild(card);
+
+    const choices = card.querySelector('.choices');
+    // build choices A-D
+    o.a.forEach((txt, idx)=>{
+      const line = document.createElement('label');
+      line.className='choice';
+      line.innerHTML = `<input type="radio" name="pick" value="${idx}"><div><b>${String.fromCharCode(65+idx)}.</b> ${txt}</div>`;
+      line.onclick = ()=>pick(idx);
+      choices.appendChild(line);
+    });
+
+    // preset highlight if answered
+    const s = state.get(o.id);
+    if(s){
+      choices.querySelectorAll('.choice').forEach((el,i)=>{
+        if(i===s.pick) el.classList.add(s.correct?'correct':'wrong');
+        if(i===o.r && mode==='study') el.classList.add('correct');
+        el.querySelector('input').checked = i===s.pick;
+      });
+      const ex = card.querySelector('.explain');
+      ex.style.display='block';
+      ex.innerHTML = `Resposta correta: <b>${String.fromCharCode(65+o.r)}</b>. ${o.tip}`;
+    }
+
+    // nav buttons
+    $('#prev').disabled = index===0;
+    $('#next').disabled = index===sequence.length-1;
+  }
+
+  function pick(i){
+    const o = ITEMS[sequence[index]];
+    const correct = i===o.r;
+    state.set(o.id,{pick:i, correct});
+    if(mode==='study'){
+      // show feedback now
+      const choices = $('.choices');
+      choices.querySelectorAll('.choice').forEach((el,idx)=>{
+        el.classList.remove('correct','wrong');
+        if(idx===i) el.classList.add(correct?'correct':'wrong');
+        if(idx===o.r) el.classList.add('correct');
+      });
+      const ex = $('.explain');
+      ex.style.display='block';
+      ex.innerHTML = `Resposta correta: <b>${String.fromCharCode(65+o.r)}</b>. ${o.tip}`;
+    }
+    // auto‑advance after small delay in study mode
+    if(mode==='study') setTimeout(()=>{ if(index<sequence.length-1){ index++; render(); window.scrollTo({top:0,behavior:'smooth'});} }, 200);
+    updateFooter();
+    render();
+  }
+
+  function updateFooter(){
+    // no‑op for now; kept for extensibility
+  }
+
+  function finish(){
+    // show summary and explanations if exam mode
+    if(mode==='exam'){
+      // reveal answers on current card
+      const o = ITEMS[sequence[index]];
+      const s = state.get(o.id);
+      if(s){
+        const choices = $('.choices');
+        if(choices){
+          choices.querySelectorAll('.choice').forEach((el,idx)=>{
+            el.classList.remove('correct','wrong');
+            if(idx===s.pick) el.classList.add(s.correct?'correct':'wrong');
+            if(idx===o.r) el.classList.add('correct');
+          });
+          const ex = $('.explain');
+          if(ex){ ex.style.display='block'; ex.innerHTML = `Resposta correta: <b>${String.fromCharCode(65+o.r)}</b>. ${o.tip}`; }
+        }
+      }
+      // scroll to top and open a summary modal replacement
+      const ans = Array.from(state.values()).filter(x=>x.pick!=null);
+      const ok = ans.filter(x=>x.correct).length;
+      alert(`Concluído! Acertou ${ok} em ${ITEMS.length} (${Math.round(ok/ITEMS.length*100)}%). As respostas corretas ficam agora visíveis nas perguntas.`);
+      // mark all cards with solution on navigation map
+      $('#map').querySelectorAll('.dot').forEach((btn,slot)=>{
+        const o = ITEMS[sequence[slot]]; const s = state.get(o.id);
+        if(s){ btn.classList.add(s.correct?'ok':'bad'); }
+      });
+    }
+  }
+
+  // ====== Eventos ======
+  $('#order').addEventListener('change', e=>{order=e.target.value});
+  $('#mode').addEventListener('change', e=>{mode=e.target.value});
+  $('#startBtn').addEventListener('click', ()=>{applyOrder(); index=0; state.clear(); render();});
+  $('#resetBtn').addEventListener('click', ()=>{location.reload()});
+  $('#prev').addEventListener('click', ()=>{ if(index>0){ index--; render(); window.scrollTo({top:0,behavior:'smooth'});} });
+  $('#next').addEventListener('click', ()=>{ if(index<sequence.length-1){ index++; render(); window.scrollTo({top:0,behavior:'smooth'});} });
+  $('#finish').addEventListener('click', finish);
+
+  // auto‑start
+  applyOrder(); render();
+  </script>
+</body>
+</html>
